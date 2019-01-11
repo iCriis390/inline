@@ -23,5 +23,15 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         // Prevent Telegram from retrying
     }
 } else {
+    if ($_SERVER['REQUEST_URI'] === '/cron' && $_SERVER['HTTP_X-Appengine-Cron'] === true && $_SERVER['HTTP_CLIENT_IP'] === '10.0.0.1') {
+        $_SERVER['argv'][1] = 'cron';
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $app = new BotCore();
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $app->run();
+        exit;
+    }
+
     header("Location: https://github.com/jacklul/inlinegamesbot");    // Redirect non-POST requests to Github repository
 }

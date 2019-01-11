@@ -1,0 +1,9 @@
+/*.yaml
+/.*
+/*.png
+/*.xcf
+
+#!include:.gitignore
+
+# Un-ignore config
+!/bot/config.php

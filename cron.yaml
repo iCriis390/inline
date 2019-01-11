@@ -1,0 +1,5 @@
+cron:
+- description: Run maintenance tasks
+  url: /cron
+  schedule: every 5 minutes
+  target: main

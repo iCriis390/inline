@@ -11,3 +11,6 @@
 
 # Other
 /language/*.mo
+
+# AppEngine app configuration
+/app.yaml

@@ -1,0 +1,14 @@
+runtime: php72
+entrypoint: serve public/index.php
+
+handlers:
+  - url: .*
+    script: auto
+    secure: always
+
+env_variables:
+  BOT_TOKEN: ''
+  BOT_USERNAME: ''
+  BOT_SECRET: ''
+  BOT_ADMIN: ''
+  DATABASE_URL: ''
