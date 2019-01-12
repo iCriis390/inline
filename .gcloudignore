@@ -6,4 +6,4 @@
 #!include:.gitignore
 
 # Un-ignore config
-!/bot/config.php
+!/config.php
