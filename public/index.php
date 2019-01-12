@@ -23,8 +23,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         // Prevent Telegram from retrying
     }
 } else {
-    if ($_SERVER['REQUEST_URI'] === '/cron' && $_SERVER['HTTP_X-Appengine-Cron'] === true && $_SERVER['HTTP_CLIENT_IP'] === '10.0.0.1') {
+    if ($_SERVER['REQUEST_URI'] === '/cron' && isset($_SERVER['HTTP_X_APPENGINE_CRON'])) {
         $_SERVER['argv'][1] = 'cron';
+
+        require_once __DIR__ . ' /../vendor/autoload.php';
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $app = new BotCore();

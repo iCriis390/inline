@@ -67,6 +67,10 @@ class CleansessionsCommand extends AdminCommand
             set_time_limit(10);
         }
 
+        if (isset($_SERVER['HTTP_X_APPENGINE_CRON'])) {
+            set_time_limit(240);
+        }
+
         /** @var \jacklul\inlinegamesbot\Storage\Driver\File $storage_class */
         $storage_class = Storage::getClass();
 

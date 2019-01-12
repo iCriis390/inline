@@ -25,6 +25,7 @@ use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
 use Monolog\Handler\DeduplicationHandler;
+use Monolog\Handler\GroupHandler;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 
@@ -269,17 +270,20 @@ class BotCore
 
             $monolog = new Logger($this->config['bot_username']);
 
-            if (isset($_SERVER['CURRENT_VERSION_ID']) || isset($_SERVER['GAE_VERSION'])) {
-                $handler = new SyslogHandler('app');
-            } else {
-                $handler = new TelegramHandler($this->config['api_key'], (int)$this->config['admins'][0], Logger::ERROR);
-                $handler->setFormatter(new TelegramFormatter());
+            $handlers = [
+                new SyslogHandler('app')
+            ];
 
-                $handler = new DeduplicationHandler($handler, defined('DATA_PATH') ? DATA_PATH . '/monolog-dedup.log' : null);
-                $handler->setLevel(Utilities::isDebugPrintEnabled() ? Logger::DEBUG : Logger::ERROR);
-            }
+            $handler = new TelegramHandler($this->config['api_key'], (int)$this->config['admins'][0], Logger::ERROR);
+            $handler->setFormatter(new TelegramFormatter());
 
-            $monolog->pushHandler($handler);
+            $handler = new DeduplicationHandler($handler, defined('DATA_PATH') ? DATA_PATH . '/monolog-dedup.log' : null);
+            $handler->setLevel(Utilities::isDebugPrintEnabled() ? Logger::DEBUG : Logger::ERROR);
+
+            $handlers[] = $handler;
+            unset($handler);
+
+            $monolog->pushHandler(new GroupHandler($handlers));
             TelegramLog::initialize($monolog);
         }
 
