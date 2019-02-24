@@ -274,10 +274,10 @@ class BotCore
                 new SyslogHandler('app')
             ];
 
-            $handler = new TelegramHandler($this->config['api_key'], (int)$this->config['admins'][0], Logger::ERROR);
+            $handler = new TelegramHandler($this->config['api_key'], (int)$this->config['admins'][0], Logger::ERROR, true, false, 10, false);
             $handler->setFormatter(new TelegramFormatter());
 
-            $handler = new DeduplicationHandler($handler, defined('DATA_PATH') ? DATA_PATH . '/monolog-dedup.log' : null);
+            $handler = new DeduplicationHandler($handler, defined('DATA_PATH') ? DATA_PATH . '/monolog-dedup.log' : sys_get_temp_dir(). '/monolog-dedup.log');
             $handler->setLevel(Utilities::isDebugPrintEnabled() ? Logger::DEBUG : Logger::ERROR);
 
             $handlers[] = $handler;
