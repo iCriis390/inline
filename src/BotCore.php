@@ -18,14 +18,10 @@ use jacklul\inlinegamesbot\Exception\BotException;
 use jacklul\inlinegamesbot\Exception\StorageException;
 use jacklul\inlinegamesbot\Helper\Utilities;
 use jacklul\inlinegamesbot\Storage\Storage;
-use jacklul\MonologTelegramHandler\TelegramFormatter;
-use jacklul\MonologTelegramHandler\TelegramHandler;
 use Longman\IPTools\Ip;
 use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
-use Monolog\Handler\DeduplicationHandler;
-use Monolog\Handler\GroupHandler;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 
@@ -269,7 +265,7 @@ class BotCore
             $this->telegram->enableAdmins($this->config['admins']);
 
             $monolog = new Logger($this->config['bot_username']);
-            $monolog->pushHandler(new SyslogHandler('app'));
+            $monolog->pushHandler(new SyslogHandler('app', Logger::WARNING));
             TelegramLog::initialize($monolog);
         }
 
