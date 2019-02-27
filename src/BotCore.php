@@ -265,7 +265,7 @@ class BotCore
             $this->telegram->enableAdmins($this->config['admins']);
 
             $monolog = new Logger($this->config['bot_username']);
-            $monolog->pushHandler(new SyslogHandler('app', Logger::WARNING));
+            $monolog->pushHandler(new SyslogHandler('app', LOG_USER, Logger::WARNING));
             TelegramLog::initialize($monolog);
         }
 
