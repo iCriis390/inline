@@ -23,7 +23,6 @@ use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
 use Monolog\Handler\SyslogHandler;
-use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Logger;
 
 define("ROOT_PATH", realpath(dirname(__DIR__)));
@@ -266,7 +265,7 @@ class BotCore
             $this->telegram->enableAdmins($this->config['admins']);
 
             $monolog = new Logger($this->config['bot_username']);
-            $monolog->pushHandler(new WhatFailureGroupHandler([new SyslogHandler('app', LOG_USER, Logger::WARNING)]));
+            $monolog->pushHandler(new SyslogHandler('app', LOG_USER, Logger::ERROR));
             TelegramLog::initialize($monolog);
         }
 
